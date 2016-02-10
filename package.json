@@ -4,14 +4,13 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "browserify": "browserify --transform coffeeify --extension=coffee main.coffee -o index.js",
-    "build": "npm run browserify",
+    "build": "coffee --print main.coffee > index.js",
     "clean": "rm -rf dist *.log",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/formatcom/chip8.git"
+    "url": "git+https://github.com/formatcom/block.git"
   },
   "keywords": [
     "coffee",
@@ -21,12 +20,10 @@
   "author": "Vinicio Valbuena (FormatCom)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/formatcom/pizarra/issues"
+    "url": "https://github.com/formatcom/block/issues"
   },
-  "homepage": "https://github.com/formatcom/pizarra#readme",
+  "homepage": "https://github.com/formatcom/block#readme",
   "devDependencies": {
-    "browserify": "^12.0.1",
-    "coffee-script": "^1.10.0",
-    "coffeeify": "^2.0.1"
+    "coffee-script": "^1.10.0"
   }
 }
