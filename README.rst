@@ -1,5 +1,8 @@
 mini-inmutable
 
+install
+npm install blockjs
+
 
 ---- Problema a resolver
 
