@@ -5,7 +5,7 @@
     if (obj == null) {
       obj = {};
     }
-    this._data = JSON.stringify(obj);
+    this._data = Object.freeze(obj);
     return this;
   };
 
@@ -17,10 +17,13 @@
       return new Block(callback(this.json()));
     },
     json: function() {
-      return JSON.parse(this._data);
+      return JSON.parse(JSON.stringify(this._data));
     },
     equals: function(obj) {
       var i, len, prop, self, type, x;
+      if (obj == null) {
+        obj = {};
+      }
       self = this.json();
       x = obj.json ? obj.json() : obj;
       if (x === null || x === void 0) {

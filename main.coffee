@@ -1,13 +1,13 @@
 Block = ( obj = {} ) ->
-  @_data = JSON.stringify obj
+  @_data = Object.freeze obj
   return @
 
 
 Block.prototype =
   get: -> new Block (@json())
   set: (callback) -> new Block callback( @json() )
-  json: -> JSON.parse @_data
-  equals: (obj) ->
+  json: -> JSON.parse JSON.stringify @_data
+  equals: (obj={}) ->
     self = @json()
     x    = if obj.json then obj.json() else obj
 
