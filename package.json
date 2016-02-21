@@ -1,8 +1,8 @@
 {
   "name": "blockjs",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "",
-  "main": "index.html",
+  "main": "index.js",
   "scripts": {
     "build": "coffee --print main.coffee > index.js",
     "clean": "rm -rf dist *.log",
