@@ -164,7 +164,7 @@ del = require('./delete');
 
 find = require('./find');
 
-SUPPORT = ['push', 'unshift', 'pop', 'shift'];
+SUPPORT = ['push', 'unshift', 'pop', 'shift', 'splice'];
 
 Block = function(obj) {
   if (obj == null) {
@@ -173,7 +173,7 @@ Block = function(obj) {
   this._objects = obj.json ? Object.freeze(obj.json()) : Object.freeze(obj);
   this.global = new Method(new Function(), 'global', this);
   this.count = 1;
-  this._support = SUPPORT;
+  this._support = SUPPORT.concat(['map', 'equals', 'json']);
   this._init();
   return this;
 };
@@ -189,7 +189,7 @@ Block.prototype = {
     var _obj;
     _obj = this.json();
     _obj = _obj.map.apply(_obj, arguments);
-    return new Block(_out);
+    return new Block(_obj);
   },
   json: function(unique) {
     var _obj, keys;

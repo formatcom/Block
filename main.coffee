@@ -4,13 +4,13 @@ set     = require './set'
 del     = require './delete'
 find    = require './find'
 
-SUPPORT = ['push', 'unshift', 'pop', 'shift']
+SUPPORT = ['push', 'unshift', 'pop', 'shift', 'splice']
 
 Block = ( obj = [] ) ->
   @_objects  = if obj.json then Object.freeze obj.json() else Object.freeze obj
   @global    = new Method new Function(), 'global', @
   @count     = 1
-  @._support = SUPPORT
+  @._support = SUPPORT.concat ['map', 'equals', 'json']
   @_init()
   return @
 
@@ -26,7 +26,7 @@ Block.prototype =
   map: () ->
     _obj = @json()
     _obj = _obj.map.apply _obj, arguments
-    new Block _out
+    new Block _obj
 
   json: (unique=false) ->
     _obj = JSON.parse JSON.stringify @_objects
