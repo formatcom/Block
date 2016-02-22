@@ -69,29 +69,35 @@ var del, setting;
 setting = require('./setting');
 
 del = function(obj) {
-  var _obj;
+  var _obj, i, item, j, key, len, len1, out, ref, ref1, valid;
+  if (obj == null) {
+    obj = false;
+  }
   _obj = new Block(this._self.global.init(this._self.json()) || this._self);
   _obj = new Block(this.init(_obj.json()) || _obj);
-  if (typeof obj === 'object') {
-    _obj = _obj.json().filter(function(item) {
-      var i, key, len, ref, valid;
-      valid = true;
-      ref = Object.keys(obj);
-      for (i = 0, len = ref.length; i < len; i++) {
-        key = ref[i];
+  if (obj === false) {
+    _obj = [];
+  } else if (typeof obj === 'object') {
+    out = [];
+    ref = _obj.json();
+    for (i = 0, len = ref.length; i < len; i++) {
+      item = ref[i];
+      valid = false;
+      ref1 = Object.keys(obj);
+      for (j = 0, len1 = ref1.length; j < len1; j++) {
+        key = ref1[j];
         valid = item[key] !== obj[key];
         if (!valid) {
           break;
         }
       }
       if (valid) {
-        return item;
+        out.push(item);
       }
-    });
-  } else {
-    _obj = {};
+    }
+    _obj = out;
   }
-  _obj = new Block(Object.keys(_obj).length === 1 ? _obj[0] : _obj);
+  _obj = new Block(_obj);
   _obj = new Block(this._self.global.finish(_obj.json()) || _obj);
   _obj = new Block(this.finish(_obj.json()) || _obj);
   _obj = setting(_obj, this._self);
@@ -107,29 +113,35 @@ var find, setting;
 setting = require('./setting');
 
 find = function(obj) {
-  var _obj;
+  var _obj, i, item, j, key, len, len1, out, ref, ref1, valid;
+  if (obj == null) {
+    obj = false;
+  }
   _obj = new Block(this._self.global.init(this._self.json()) || this._self);
   _obj = new Block(this.init(_obj.json()) || _obj);
-  if (typeof obj === 'object') {
-    _obj = _obj.json().filter(function(item) {
-      var i, key, len, ref, valid;
-      valid = true;
-      ref = Object.keys(obj);
-      for (i = 0, len = ref.length; i < len; i++) {
-        key = ref[i];
+  if (obj === false) {
+    _obj = [];
+  } else if (typeof obj === 'object') {
+    out = [];
+    ref = _obj.json();
+    for (i = 0, len = ref.length; i < len; i++) {
+      item = ref[i];
+      valid = false;
+      ref1 = Object.keys(obj);
+      for (j = 0, len1 = ref1.length; j < len1; j++) {
+        key = ref1[j];
         valid = item[key] === obj[key];
         if (!valid) {
           break;
         }
       }
       if (valid) {
-        return item;
+        out.push(item);
       }
-    });
-  } else {
-    _obj = {};
+    }
+    _obj = out;
   }
-  _obj = new Block(Object.keys(_obj).length === 1 ? _obj[0] : _obj);
+  _obj = new Block(_obj);
   _obj = new Block(this._self.global.finish(_obj.json()) || _obj);
   _obj = new Block(this.finish(_obj.json()) || _obj);
   _obj = setting(_obj, this._self);
@@ -154,9 +166,9 @@ find = require('./find');
 
 Block = function(obj) {
   if (obj == null) {
-    obj = {};
+    obj = [];
   }
-  this.objects = obj.json ? Object.freeze(obj.json()) : Object.freeze(obj);
+  this._objects = obj.json ? Object.freeze(obj.json()) : Object.freeze(obj);
   this.global = new Method(new Function(), 'global', this);
   this.count = 1;
   this._init();
@@ -170,15 +182,28 @@ Block.prototype = {
     this["delete"] = new Method(del, 'delete', this);
     return this.find = new Method(find, 'find', this);
   },
-  json: function() {
-    return JSON.parse(JSON.stringify(this.objects));
+  json: function(unique) {
+    var _obj, keys;
+    if (unique == null) {
+      unique = false;
+    }
+    _obj = JSON.parse(JSON.stringify(this._objects));
+    if (unique === true) {
+      keys = Object.keys(_obj);
+      if (keys.length === 0) {
+        _obj = null;
+      } else if (keys.length === 1) {
+        _obj = _obj[keys[0]];
+      }
+    }
+    return _obj;
   },
-  equals: function(obj) {
-    var i, len, prop, self, type, x;
+  equals: function(obj, self) {
+    var i, key, len, ref, type, x;
     if (obj == null) {
       obj = {};
     }
-    self = this.json();
+    self = self || this.json();
     x = obj.json ? obj.json() : obj;
     if (x === null || x === void 0) {
       return false;
@@ -186,21 +211,22 @@ Block.prototype = {
     if (Object.keys(self).length !== Object.keys(x).length) {
       return false;
     }
-    for (i = 0, len = self.length; i < len; i++) {
-      prop = self[i];
-      if (self.hasOwnProperty(prop)) {
-        if (!x.hasOwnProperty(prop)) {
+    ref = Object.keys(self);
+    for (i = 0, len = ref.length; i < len; i++) {
+      key = ref[i];
+      if (self.hasOwnProperty(key)) {
+        if (!x.hasOwnProperty(key)) {
           return false;
         }
-        type = typeof self[prop];
+        type = typeof self[key];
         if (type === 'function') {
           return false;
         } else if (type === 'object') {
-          if (!self[prop].equals(x[prop])) {
+          if (!this.equals(x[key], self[key])) {
             return false;
           }
         } else {
-          if (self[prop] !== x[prop]) {
+          if (self[key] !== x[key]) {
             return false;
           }
         }

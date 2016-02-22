@@ -1,23 +1,27 @@
 setting = require './setting'
 
-find = (obj) ->
+find = (obj=false) ->
   _obj = new Block( @_self.global.init( @_self.json() ) || @_self )
   _obj = new Block( @init( _obj.json() ) || _obj )
 
-  if typeof(obj) is 'object'
-    _obj = _obj.json().filter (item) ->
+  if obj is false
+    _obj = []
     
-      valid = true
+  else if typeof(obj) is 'object'
+ 
+    out = []
     
+    for item in _obj.json()
+      valid = false
       for key in Object.keys(obj)
         valid = item[key] is obj[key]
         if !valid then break
 
-      if valid then return item
-  else
-    _obj = {}
+      if valid then out.push(item)
 
-  _obj = new Block( if Object.keys(_obj).length is 1 then _obj[0] else _obj )
+    _obj = out
+
+  _obj = new Block _obj
 
   _obj = new Block( @_self.global.finish( _obj.json() ) || _obj )
   _obj = new Block( @finish( _obj.json() ) || _obj )
