@@ -4,7 +4,7 @@ set     = require './set'
 del     = require './delete'
 find    = require './find'
 
-SUPPORT = ['push', 'unshift', 'pop', 'shift', 'splice']
+SUPPORT = ['push', 'unshift', 'pop', 'shift', 'splice', 'sort', 'reverse']
 
 Block = ( obj = [] ) ->
   @_objects  = if obj.json then Object.freeze obj.json() else Object.freeze obj

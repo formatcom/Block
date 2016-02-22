@@ -164,7 +164,7 @@ del = require('./delete');
 
 find = require('./find');
 
-SUPPORT = ['push', 'unshift', 'pop', 'shift', 'splice'];
+SUPPORT = ['push', 'unshift', 'pop', 'shift', 'splice', 'sort'];
 
 Block = function(obj) {
   if (obj == null) {
