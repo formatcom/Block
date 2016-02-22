@@ -7,8 +7,9 @@ find    = require './find'
 
 Block = ( obj = [] ) ->
   @_objects = if obj.json then Object.freeze obj.json() else Object.freeze obj
-  @global  = new Method new Function(), 'global', @
-  @count   = 1
+  @global   = new Method new Function(), 'global', @
+  @count    = 1
+  @_support = ['map', 'pop', 'shift', 'push', 'json', 'equals']
   @_init()
   return @
 
@@ -35,10 +36,12 @@ Block.prototype =
 
   pop: () ->
     _obj = @json()
-    if Object.keys(_obj).length > 1
-      _obj.pop()
-    else
-      _obj = []
+    _obj.pop()
+    new Block _obj
+
+  shift: () ->
+    _obj = @json()
+    _obj.shift()
     new Block _obj
 
   json: (unique=false) ->

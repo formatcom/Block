@@ -171,6 +171,7 @@ Block = function(obj) {
   this._objects = obj.json ? Object.freeze(obj.json()) : Object.freeze(obj);
   this.global = new Method(new Function(), 'global', this);
   this.count = 1;
+  this._support = ['map', 'pop', 'shift', 'push', 'json', 'equals'];
   this._init();
   return this;
 };
@@ -202,11 +203,13 @@ Block.prototype = {
   pop: function() {
     var _obj;
     _obj = this.json();
-    if (Object.keys(_obj).length > 1) {
-      _obj.pop();
-    } else {
-      _obj = [];
-    }
+    _obj.pop();
+    return new Block(_obj);
+  },
+  shift: function() {
+    var _obj;
+    _obj = this.json();
+    _obj.shift();
     return new Block(_obj);
   },
   json: function(unique) {
