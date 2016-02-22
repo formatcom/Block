@@ -4,14 +4,16 @@ set     = require './set'
 del     = require './delete'
 find    = require './find'
 
+SUPPORT = ['push', 'unshift', 'pop', 'shift']
 
 Block = ( obj = [] ) ->
-  @_objects = if obj.json then Object.freeze obj.json() else Object.freeze obj
-  @global   = new Method new Function(), 'global', @
-  @count    = 1
-  @_support = ['map', 'pop', 'shift', 'push', 'json', 'equals']
+  @_objects  = if obj.json then Object.freeze obj.json() else Object.freeze obj
+  @global    = new Method new Function(), 'global', @
+  @count     = 1
+  @._support = SUPPORT
   @_init()
   return @
+
 
 Block.prototype =
   _init: () ->
@@ -21,28 +23,10 @@ Block.prototype =
     @delete = new Method del,  'delete', @
     @find   = new Method find, 'find',   @
 
-  map: (callback) ->
+  map: () ->
     _obj = @json()
-    _out = []
-    for key in Object.keys _obj
-      _out.push( callback _obj[key] )
-    
-    return new Block _out
-
-  push: (item) ->
-    _obj = @json()
-    _obj.push item
-    new Block _obj
-
-  pop: () ->
-    _obj = @json()
-    _obj.pop()
-    new Block _obj
-
-  shift: () ->
-    _obj = @json()
-    _obj.shift()
-    new Block _obj
+    _obj = _obj.map.apply _obj, arguments
+    new Block _out
 
   json: (unique=false) ->
     _obj = JSON.parse JSON.stringify @_objects
@@ -75,5 +59,15 @@ Block.prototype =
           if self[key] != x[key] then return false
 
     return true
+
+BASE = (_prop) ->
+  return () ->
+    _obj = @json()
+    _obj[_prop].apply _obj, arguments
+    new Block _obj
+
+for prop in SUPPORT
+  Block.prototype[prop] = BASE prop
+    
 
 module.exports = Block

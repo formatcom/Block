@@ -152,7 +152,7 @@ module.exports = find;
 
 
 },{"./setting":7}],5:[function(require,module,exports){
-var Block, Method, all, del, find, set;
+var BASE, Block, Method, SUPPORT, all, del, find, i, len, prop, set;
 
 Method = require('./Method');
 
@@ -164,6 +164,8 @@ del = require('./delete');
 
 find = require('./find');
 
+SUPPORT = ['push', 'unshift', 'pop', 'shift'];
+
 Block = function(obj) {
   if (obj == null) {
     obj = [];
@@ -171,7 +173,7 @@ Block = function(obj) {
   this._objects = obj.json ? Object.freeze(obj.json()) : Object.freeze(obj);
   this.global = new Method(new Function(), 'global', this);
   this.count = 1;
-  this._support = ['map', 'pop', 'shift', 'push', 'json', 'equals'];
+  this._support = SUPPORT;
   this._init();
   return this;
 };
@@ -183,34 +185,11 @@ Block.prototype = {
     this["delete"] = new Method(del, 'delete', this);
     return this.find = new Method(find, 'find', this);
   },
-  map: function(callback) {
-    var _obj, _out, i, key, len, ref;
+  map: function() {
+    var _obj;
     _obj = this.json();
-    _out = [];
-    ref = Object.keys(_obj);
-    for (i = 0, len = ref.length; i < len; i++) {
-      key = ref[i];
-      _out.push(callback(_obj[key]));
-    }
+    _obj = _obj.map.apply(_obj, arguments);
     return new Block(_out);
-  },
-  push: function(item) {
-    var _obj;
-    _obj = this.json();
-    _obj.push(item);
-    return new Block(_obj);
-  },
-  pop: function() {
-    var _obj;
-    _obj = this.json();
-    _obj.pop();
-    return new Block(_obj);
-  },
-  shift: function() {
-    var _obj;
-    _obj = this.json();
-    _obj.shift();
-    return new Block(_obj);
   },
   json: function(unique) {
     var _obj, keys;
@@ -265,6 +244,20 @@ Block.prototype = {
     return true;
   }
 };
+
+BASE = function(_prop) {
+  return function() {
+    var _obj;
+    _obj = this.json();
+    _obj[_prop].apply(_obj, arguments);
+    return new Block(_obj);
+  };
+};
+
+for (i = 0, len = SUPPORT.length; i < len; i++) {
+  prop = SUPPORT[i];
+  Block.prototype[prop] = BASE(prop);
+}
 
 module.exports = Block;
 
