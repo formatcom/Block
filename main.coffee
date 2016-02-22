@@ -1,136 +1,24 @@
+Method  = require './Method'
+all     = require './all'
+set     = require './set'
+del     = require './delete'
+find    = require './find'
+
+
 Block = ( obj = {} ) ->
   @objects = if obj.json then Object.freeze obj.json() else Object.freeze obj
+  @global  = new Method new Function(), 'global', @
+  @count   = 1
   @_init()
   return @
 
 Block.prototype =
   _init: () ->
-
-    self = @
-
-    @all = () ->
-      _obj = new Block( @all.init( @json() ) || @ )
-      _obj = new Block( @all.finish( _obj.json() ) || @ )
-      _obj.all.init   = @all.init
-      _obj.all.finish = @all.finish
-      return _obj
-
-    @all.init = (event) ->
-      _obj = new Block( if typeof(event) == "object" then event else self )
-     
-      if typeof(event) == 'function'
-        _obj.all.init = event
-
-      return _obj
-
-    @all.finish = (event) ->
-      _obj = new Block( if typeof(event) == "object" then event else self )
     
-      if typeof(event) == 'function'
-        _obj.all.finish = event
-    
-      return _obj
-
-
-    @set = (callback) ->
-      _obj = new Block( @set.init( @json() ) || @ )
-      _obj = new Block( callback( _obj.json() ) || @ )
-      _obj = new Block( @set.finish( _obj.json() ) || @ )
-      _obj.set.init   = @set.init
-      _obj.set.finish = @set.finish
-
-      return _obj
-
-    @set.init = (event) ->
-      _obj = new Block( if typeof(event) == "object" then event else self )
-     
-      if typeof(event) == 'function'
-        _obj.set.init = event
-
-      return _obj
-
-    @set.finish = (event) ->
-      _obj = new Block( if typeof(event) == "object" then event else self )
-    
-      if typeof(event) == 'function'
-        _obj.set.finish = event
-    
-      return _obj
-
-
-    @delete = (obj={}) ->
-      _obj = new Block( @delete.init( @json() ) || @ )
-      _obj = _obj.json().filter (item) ->
-        
-        valid = true
-        
-        for key in Object.keys(obj)
-          valid = item[key] != obj[key]
-          if !valid then break
-
-        if valid then return item
-      
-      _obj = new Block _obj
-
-      _obj = new Block( @delete.finish( _obj.json() ) || @ )
-      _obj.delete.init   = @delete.init
-      _obj.delete.finish = @delete.finish
-
-      return _obj
-
-    @delete.init = (event) ->
-      _obj = new Block( if typeof(event) == "object" then event else self )
-     
-      if typeof(event) == 'function'
-        _obj.delete.init = event
-
-      return _obj
-
-    @delete.finish = (event) ->
-      _obj = new Block( if typeof(event) == "object" then event else self )
-    
-      if typeof(event) == 'function'
-        _obj.delete.finish = event
-    
-      return _obj
-
-
-
-    @find = (obj={}) ->
-      _obj = new Block( @find.init( @json() ) || @ )
-      _obj = _obj.json().filter (item) ->
-        
-        valid = true
-        
-        for key in Object.keys(obj)
-          valid = item[key] == obj[key]
-          if !valid then break
-
-        if valid then return item
-      
-      _obj = new Block _obj
-      _obj = new Block( @find.finish( _obj.json() ) || @ )
-      _obj.find.init   = @find.init
-      _obj.find.finish = @find.finish
-
-      return _obj
-
-    @find.init = (event) ->
-      _obj = new Block( if typeof(event) == "object" then event else self )
-     
-      if typeof(event) == 'function'
-        _obj.find.init = event
-
-      return _obj
-
-    @find.finish = (event) ->
-      _obj = new Block( if typeof(event) == "object" then event else self )
-    
-      if typeof(event) == 'function'
-        _obj.find.finish = event
-    
-      return _obj
-
+    @all    = new Method all,  'all',    @
+    @set    = new Method set,  'set',    @
+    @delete = new Method del,  'delete', @
+    @find   = new Method find, 'find',   @
 
   json: -> JSON.parse JSON.stringify @objects
   equals: (obj={}) ->
@@ -155,5 +43,4 @@ Block.prototype =
 
     return true
 
-module.exports =
-  Block
+module.exports = Block
