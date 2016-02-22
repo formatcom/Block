@@ -182,6 +182,17 @@ Block.prototype = {
     this["delete"] = new Method(del, 'delete', this);
     return this.find = new Method(find, 'find', this);
   },
+  map: function(callback) {
+    var _obj, _out, i, key, len, ref;
+    _obj = this.json();
+    _out = [];
+    ref = Object.keys(_obj);
+    for (i = 0, len = ref.length; i < len; i++) {
+      key = ref[i];
+      _out.push(callback(_obj[key]));
+    }
+    return new Block(_out);
+  },
   json: function(unique) {
     var _obj, keys;
     if (unique == null) {

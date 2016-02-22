@@ -20,6 +20,14 @@ Block.prototype =
     @delete = new Method del,  'delete', @
     @find   = new Method find, 'find',   @
 
+  map: (callback) ->
+    _obj = @json()
+    _out = []
+    for key in Object.keys _obj
+      _out.push( callback _obj[key] )
+    
+    return new Block _out
+
   json: (unique=false) ->
     _obj = JSON.parse JSON.stringify @_objects
     
