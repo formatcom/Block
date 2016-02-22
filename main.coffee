@@ -28,6 +28,11 @@ Block.prototype =
     
     return new Block _out
 
+  push: (item) ->
+    _obj = @json()
+    _obj.push item
+    new Block _obj
+
   json: (unique=false) ->
     _obj = JSON.parse JSON.stringify @_objects
     

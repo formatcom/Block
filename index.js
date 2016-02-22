@@ -193,6 +193,12 @@ Block.prototype = {
     }
     return new Block(_out);
   },
+  push: function(item) {
+    var _obj;
+    _obj = this.json();
+    _obj.push(item);
+    return new Block(_obj);
+  },
   json: function(unique) {
     var _obj, keys;
     if (unique == null) {
