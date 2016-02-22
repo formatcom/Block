@@ -33,6 +33,14 @@ Block.prototype =
     _obj.push item
     new Block _obj
 
+  pop: () ->
+    _obj = @json()
+    if Object.keys(_obj).length > 1
+      _obj.pop()
+    else
+      _obj = []
+    new Block _obj
+
   json: (unique=false) ->
     _obj = JSON.parse JSON.stringify @_objects
     

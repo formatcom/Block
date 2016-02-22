@@ -199,6 +199,16 @@ Block.prototype = {
     _obj.push(item);
     return new Block(_obj);
   },
+  pop: function() {
+    var _obj;
+    _obj = this.json();
+    if (Object.keys(_obj).length > 1) {
+      _obj.pop();
+    } else {
+      _obj = [];
+    }
+    return new Block(_obj);
+  },
   json: function(unique) {
     var _obj, keys;
     if (unique == null) {
