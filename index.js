@@ -7,29 +7,29 @@ Method = function(exec, name, self) {
   this._exec = exec;
   this._name = name;
   this._self = self;
-  this._init = false;
-  this._finish = false;
-  this.init = function(event) {
+  this._before = false;
+  this._after = false;
+  this.before = function(event) {
     var _obj;
     _obj = new Block(typeof event === 'object' ? event : this._self);
     if (typeof event === 'function') {
       _obj = setting(_obj, this._self);
-      _obj[this._name]._init = true;
-      _obj[this._name]._finish = this._self[this._name]._finish;
-      _obj[this._name].init = event;
-      _obj[this._name].finish = this._self[this._name].finish;
+      _obj[this._name]._before = true;
+      _obj[this._name]._after = this._self[this._name]._after;
+      _obj[this._name].before = event;
+      _obj[this._name].after = this._self[this._name].after;
     }
     return _obj;
   };
-  this.finish = function(event) {
+  this.after = function(event) {
     var _obj;
     _obj = new Block(typeof event === 'object' ? event : this._self);
     if (typeof event === 'function') {
       _obj = setting(_obj, this._self);
-      _obj[this._name]._init = this._self[this._name]._init;
-      _obj[this._name]._finish = true;
-      _obj[this._name].init = this._self[this._name].init;
-      _obj[this._name].finish = event;
+      _obj[this._name]._before = this._self[this._name]._before;
+      _obj[this._name]._after = true;
+      _obj[this._name].before = this._self[this._name].before;
+      _obj[this._name].after = event;
     }
     return _obj;
   };
@@ -52,10 +52,10 @@ setting = require('./setting');
 
 all = function() {
   var _obj;
-  _obj = new Block(this._self.global.init(this._self.json()) || this._self);
-  _obj = new Block(this.init(_obj.json()) || _obj);
-  _obj = new Block(this._self.global.finish(_obj.json()) || _obj);
-  _obj = new Block(this.finish(_obj.json()) || _obj);
+  _obj = new Block(this._self.global.before(this._self.json()) || this._self);
+  _obj = new Block(this.before(_obj.json()) || _obj);
+  _obj = new Block(this._self.global.after(_obj.json()) || _obj);
+  _obj = new Block(this.after(_obj.json()) || _obj);
   _obj = setting(_obj, this._self);
   return _obj;
 };
@@ -73,8 +73,8 @@ del = function(obj) {
   if (obj == null) {
     obj = false;
   }
-  _obj = new Block(this._self.global.init(this._self.json()) || this._self);
-  _obj = new Block(this.init(_obj.json()) || _obj);
+  _obj = new Block(this._self.global.before(this._self.json()) || this._self);
+  _obj = new Block(this.before(_obj.json()) || _obj);
   if (obj === false) {
     _obj = [];
   } else if (typeof obj === 'object') {
@@ -98,8 +98,8 @@ del = function(obj) {
     _obj = out;
   }
   _obj = new Block(_obj);
-  _obj = new Block(this._self.global.finish(_obj.json()) || _obj);
-  _obj = new Block(this.finish(_obj.json()) || _obj);
+  _obj = new Block(this._self.global.after(_obj.json()) || _obj);
+  _obj = new Block(this.after(_obj.json()) || _obj);
   _obj = setting(_obj, this._self);
   return _obj;
 };
@@ -117,8 +117,8 @@ find = function(obj) {
   if (obj == null) {
     obj = false;
   }
-  _obj = new Block(this._self.global.init(this._self.json()) || this._self);
-  _obj = new Block(this.init(_obj.json()) || _obj);
+  _obj = new Block(this._self.global.before(this._self.json()) || this._self);
+  _obj = new Block(this.before(_obj.json()) || _obj);
   if (obj === false) {
     _obj = [];
   } else if (typeof obj === 'object') {
@@ -142,8 +142,8 @@ find = function(obj) {
     _obj = out;
   }
   _obj = new Block(_obj);
-  _obj = new Block(this._self.global.finish(_obj.json()) || _obj);
-  _obj = new Block(this.finish(_obj.json()) || _obj);
+  _obj = new Block(this._self.global.after(_obj.json()) || _obj);
+  _obj = new Block(this.after(_obj.json()) || _obj);
   _obj = setting(_obj, this._self);
   return _obj;
 };
@@ -318,11 +318,11 @@ set = function(callback) {
   if (callback == null) {
     callback = new Function();
   }
-  _obj = new Block(this._self.global.init(this._self.json()) || this._self);
-  _obj = new Block(this.init(_obj.json()) || _obj);
+  _obj = new Block(this._self.global.before(this._self.json()) || this._self);
+  _obj = new Block(this.before(_obj.json()) || _obj);
   _obj = new Block(callback(_obj.json()) || _obj);
-  _obj = new Block(this._self.global.finish(_obj.json()) || _obj);
-  _obj = new Block(this.finish(_obj.json()) || _obj);
+  _obj = new Block(this._self.global.after(_obj.json()) || _obj);
+  _obj = new Block(this.after(_obj.json()) || _obj);
   _obj.count += this._self.count;
   _obj = setting(_obj, this._self);
   return _obj;
@@ -340,10 +340,10 @@ setting = function(obj, self) {
   var i, len, name;
   for (i = 0, len = METHOD.length; i < len; i++) {
     name = METHOD[i];
-    obj[name]._init = self[name]._init;
-    obj[name]._finish = self[name]._finish;
-    obj[name].init = self[name].init;
-    obj[name].finish = self[name].finish;
+    obj[name]._before = self[name]._before;
+    obj[name]._after = self[name]._after;
+    obj[name].before = self[name].before;
+    obj[name].after = self[name].after;
   }
   return obj;
 };

@@ -3,11 +3,11 @@ METHOD = ['global', 'all', 'set', 'delete', 'find']
 setting = (obj, self) ->
   for name in METHOD
     
-    obj[name]._init   = self[name]._init
-    obj[name]._finish = self[name]._finish
+    obj[name]._before = self[name]._before
+    obj[name]._after  = self[name]._after
 
-    obj[name].init   = self[name].init
-    obj[name].finish = self[name].finish
+    obj[name].before = self[name].before
+    obj[name].after  = self[name].after
 
   return obj
 

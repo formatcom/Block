@@ -4,34 +4,34 @@ Method = (exec, name, self) ->
   @_exec   = exec
   @_name   = name
   @_self   = self
-  @_init   = false
-  @_finish = false
+  @_before = false
+  @_after  = false
   
-  @init = (event) ->
+  @before = (event) ->
     _obj = new Block( if typeof(event) is 'object' then event else @_self )
    
     if typeof(event) is 'function'
       _obj = setting _obj, @_self
 
-      _obj[@_name]._init   = true
-      _obj[@_name]._finish = @_self[@_name]._finish
+      _obj[@_name]._before = true
+      _obj[@_name]._after  = @_self[@_name]._after
 
-      _obj[@_name].init   = event
-      _obj[@_name].finish = @_self[@_name].finish
+      _obj[@_name].before   = event
+      _obj[@_name].after = @_self[@_name].after
 
     return _obj
 
-  @finish = (event) ->
+  @after = (event) ->
     _obj = new Block( if typeof(event) is 'object' then event else @_self )
 
     if typeof(event) is 'function'
       _obj = setting _obj, @_self
 
-      _obj[@_name]._init   = @_self[@_name]._init
-      _obj[@_name]._finish = true
+      _obj[@_name]._before = @_self[@_name]._before
+      _obj[@_name]._after  = true
 
-      _obj[@_name].init   = @_self[@_name].init
-      _obj[@_name].finish = event
+      _obj[@_name].before = @_self[@_name].before
+      _obj[@_name].after  = event
 
     return _obj
 
