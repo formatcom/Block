@@ -45,7 +45,7 @@ Method.prototype = {
 module.exports = Method;
 
 
-},{"./setting":7}],2:[function(require,module,exports){
+},{"./setting":8}],2:[function(require,module,exports){
 var all, setting;
 
 setting = require('./setting');
@@ -63,7 +63,7 @@ all = function() {
 module.exports = all;
 
 
-},{"./setting":7}],3:[function(require,module,exports){
+},{"./setting":8}],3:[function(require,module,exports){
 var del, setting;
 
 setting = require('./setting');
@@ -107,7 +107,7 @@ del = function(obj) {
 module.exports = del;
 
 
-},{"./setting":7}],4:[function(require,module,exports){
+},{"./setting":8}],4:[function(require,module,exports){
 var find, setting;
 
 setting = require('./setting');
@@ -151,8 +151,36 @@ find = function(obj) {
 module.exports = find;
 
 
-},{"./setting":7}],5:[function(require,module,exports){
-var BASE, Block, Method, SUPPORT_IMMUTABLE, SUPPORT_IMMUTABLE_BLOCK, SUPPORT_MUTABLE, SUPPORT_MUTABLE_BLOCK, all, del, find, i, j, k, l, len, len1, len2, len3, prop, set;
+},{"./setting":8}],5:[function(require,module,exports){
+var first, setting;
+
+setting = require('./setting');
+
+first = function(limit) {
+  var _obj, i, index, out, ref;
+  if (limit == null) {
+    limit = 1;
+  }
+  _obj = new Block(this._self.global.before(this._self.json()) || this._self);
+  _obj = new Block(this.before(_obj.json()) || _obj);
+  _obj = _obj.json();
+  limit = limit > Object.keys(_obj).length ? Object.keys(_obj).length : limit;
+  out = [];
+  for (index = i = 0, ref = limit; 0 <= ref ? i < ref : i > ref; index = 0 <= ref ? ++i : --i) {
+    out.push(_obj[index]);
+  }
+  _obj = out;
+  _obj = new Block(this._self.global.after(_obj) || _obj);
+  _obj = new Block(this.after(_obj.json()) || _obj);
+  _obj = setting(_obj, this._self);
+  return _obj;
+};
+
+module.exports = first;
+
+
+},{"./setting":8}],6:[function(require,module,exports){
+var BASE, Block, Method, SUPPORT_IMMUTABLE, SUPPORT_IMMUTABLE_BLOCK, SUPPORT_MUTABLE, SUPPORT_MUTABLE_BLOCK, all, del, find, first, i, j, k, l, len, len1, len2, len3, prop, set;
 
 Method = require('./Method');
 
@@ -163,6 +191,8 @@ set = require('./set');
 del = require('./delete');
 
 find = require('./find');
+
+first = require('./first');
 
 SUPPORT_MUTABLE_BLOCK = ['push', 'unshift'];
 
@@ -190,7 +220,8 @@ Block.prototype = {
     this.all = new Method(all, 'all', this);
     this.set = new Method(set, 'set', this);
     this["delete"] = new Method(del, 'delete', this);
-    return this.find = new Method(find, 'find', this);
+    this.find = new Method(find, 'find', this);
+    return this.first = new Method(first, 'first', this);
   },
   json: function(unique) {
     var _obj, keys;
@@ -308,7 +339,7 @@ for (l = 0, len3 = SUPPORT_IMMUTABLE.length; l < len3; l++) {
 module.exports = Block;
 
 
-},{"./Method":1,"./all":2,"./delete":3,"./find":4,"./set":6}],6:[function(require,module,exports){
+},{"./Method":1,"./all":2,"./delete":3,"./find":4,"./first":5,"./set":7}],7:[function(require,module,exports){
 var set, setting;
 
 setting = require('./setting');
@@ -331,10 +362,10 @@ set = function(callback) {
 module.exports = set;
 
 
-},{"./setting":7}],7:[function(require,module,exports){
+},{"./setting":8}],8:[function(require,module,exports){
 var METHOD, setting;
 
-METHOD = ['global', 'all', 'set', 'delete', 'find'];
+METHOD = ['global', 'all', 'set', 'delete', 'find', 'first'];
 
 setting = function(obj, self) {
   var i, len, name;
@@ -351,5 +382,5 @@ setting = function(obj, self) {
 module.exports = setting;
 
 
-},{}]},{},[5])(5)
+},{}]},{},[6])(6)
 });

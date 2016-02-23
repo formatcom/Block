@@ -3,6 +3,7 @@ all     = require './all'
 set     = require './set'
 del     = require './delete'
 find    = require './find'
+first   = require './first'
 
 SUPPORT_MUTABLE_BLOCK   = ['push', 'unshift']
 SUPPORT_MUTABLE         = ['pop', 'shift', 'splice', 'sort', 'reverse']
@@ -22,10 +23,11 @@ Block = ( obj = [] ) ->
 Block.prototype =
   _init: () ->
     
-    @all    = new Method all,  'all',    @
-    @set    = new Method set,  'set',    @
-    @delete = new Method del,  'delete', @
-    @find   = new Method find, 'find',   @
+    @all    = new Method all,   'all',    @
+    @set    = new Method set,   'set',    @
+    @delete = new Method del,   'delete', @
+    @find   = new Method find,  'find',   @
+    @first  = new Method first, 'first',  @
 
   json: (unique=false) ->
     _obj = JSON.parse JSON.stringify @_objects
