@@ -170,7 +170,7 @@ SUPPORT_MUTABLE = ['pop', 'shift', 'splice', 'sort', 'reverse'];
 
 SUPPORT_IMMUTABLE_BLOCK = ['concat'];
 
-SUPPORT_IMMUTABLE = ['map', 'filter'];
+SUPPORT_IMMUTABLE = ['map', 'filter', 'forEach'];
 
 Block = function(obj) {
   if (obj == null) {

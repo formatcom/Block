@@ -7,7 +7,7 @@ find    = require './find'
 SUPPORT_MUTABLE_BLOCK   = ['push', 'unshift']
 SUPPORT_MUTABLE         = ['pop', 'shift', 'splice', 'sort', 'reverse']
 SUPPORT_IMMUTABLE_BLOCK = ['concat']
-SUPPORT_IMMUTABLE       = ['map', 'filter']
+SUPPORT_IMMUTABLE       = ['map', 'filter', 'forEach']
 
 Block = ( obj = [] ) ->
   @_objects        = if obj.json then Object.freeze obj.json() else Object.freeze obj
