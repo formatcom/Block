@@ -196,9 +196,7 @@ last = function(limit) {
   init = length - limit;
   limit = init < -1 ? -1 : init;
   out = [];
-  console.log(length, limit, init);
   for (index = i = ref = length, ref1 = limit; ref <= ref1 ? i < ref1 : i > ref1; index = ref <= ref1 ? ++i : --i) {
-    console.log('count: ', index);
     out.push(_obj[index]);
   }
   _obj = out;
@@ -242,7 +240,7 @@ Block = function(obj) {
   }
   this._objects = obj.json ? Object.freeze(obj.json()) : Object.freeze(obj);
   this.global = new Method(new Function(), 'global', this);
-  this.count = 1;
+  this.count = 0;
   this._support = SUPPORT_MUTABLE.concat(SUPPORT_IMMUTABLE.concat(['json']));
   this._support_block = SUPPORT_MUTABLE_BLOCK.concat(SUPPORT_IMMUTABLE_BLOCK.concat(['equals']));
   this._init();

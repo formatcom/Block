@@ -15,7 +15,7 @@ SUPPORT_IMMUTABLE       = ['map', 'filter', 'forEach']
 Block = ( obj = [] ) ->
   @_objects        = if obj.json then Object.freeze obj.json() else Object.freeze obj
   @global          = new Method new Function(), 'global', @
-  @count           = 1
+  @count           = 0
   @._support       = SUPPORT_MUTABLE.concat SUPPORT_IMMUTABLE.concat ['json']
   @._support_block = SUPPORT_MUTABLE_BLOCK.concat SUPPORT_IMMUTABLE_BLOCK.concat ['equals']
   @_init()

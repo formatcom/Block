@@ -12,9 +12,7 @@ last = (limit=1) ->
   limit  = if init < -1 then -1 else init
 
   out = []
-  console.log length, limit, init
   for index in [length...limit]
-    console.log 'count: ', index
     out.push _obj[index]
   _obj = out
 
