@@ -9,11 +9,11 @@ last = (limit=1) ->
   
   length = Object.keys(_obj).length - 1
   init = length - limit
-  limit  = if init < 0 then 0 else init
+  limit  = if init < -1 then -1 else init
 
   out = []
   console.log length, limit, init
-  for index in [length..limit]
+  for index in [length...limit]
     console.log 'count: ', index
     out.push _obj[index]
   _obj = out

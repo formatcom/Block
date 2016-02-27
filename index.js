@@ -194,10 +194,10 @@ last = function(limit) {
   _obj = _obj.json();
   length = Object.keys(_obj).length - 1;
   init = length - limit;
-  limit = init < 0 ? 0 : init;
+  limit = init < -1 ? -1 : init;
   out = [];
   console.log(length, limit, init);
-  for (index = i = ref = length, ref1 = limit; ref <= ref1 ? i <= ref1 : i >= ref1; index = ref <= ref1 ? ++i : --i) {
+  for (index = i = ref = length, ref1 = limit; ref <= ref1 ? i < ref1 : i > ref1; index = ref <= ref1 ? ++i : --i) {
     console.log('count: ', index);
     out.push(_obj[index]);
   }
