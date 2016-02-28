@@ -5,6 +5,9 @@ del     = require './delete'
 find    = require './find'
 first   = require './first'
 last    = require './last'
+min     = require './min'
+max     = require './max'
+like    = require './like'
 
 
 SUPPORT_MUTABLE_BLOCK   = ['push', 'unshift']
@@ -31,6 +34,9 @@ Block.prototype =
     @find   = new Method find,  'find',   @
     @first  = new Method first, 'first',  @
     @last   = new Method last,  'last',   @
+    @min    = new Method min,   'min',    @
+    @max    = new Method max,   'max',    @
+    @like   = new Method like,  'like',   @
 
   json: (unique=false) ->
     _obj = JSON.parse JSON.stringify @_objects
