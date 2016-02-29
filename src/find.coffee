@@ -1,3 +1,4 @@
+Block   = require './core'
 setting = require './setting'
 
 find = (obj=false) ->

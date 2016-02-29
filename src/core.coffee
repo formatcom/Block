@@ -1,6 +1,3 @@
-Method = require './method'
-
-
 SUPPORT_MUTABLE_BLOCK   = ['push', 'unshift']
 SUPPORT_MUTABLE         = ['pop', 'shift', 'splice', 'sort', 'reverse']
 SUPPORT_IMMUTABLE_BLOCK = ['concat']
@@ -8,12 +5,10 @@ SUPPORT_IMMUTABLE       = ['map', 'filter', 'forEach']
 
 Block = ( obj = [] ) ->
   @_objects        = if obj.json then Object.freeze obj.json() else Object.freeze obj
-  @global          = new Method new Function(), 'global', @
   @._support       = SUPPORT_MUTABLE.concat SUPPORT_IMMUTABLE.concat ['json']
   @._support_block = SUPPORT_MUTABLE_BLOCK.concat SUPPORT_IMMUTABLE_BLOCK.concat ['equals']
   @_extend()
   return @
-
 
 Block.prototype =
 

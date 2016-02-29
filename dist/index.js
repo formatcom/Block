@@ -25,6 +25,7 @@
   set = require('./set');
 
   Block.prototype._extend = function() {
+    this.global = new Method(new Function(), 'global', this);
     this.all = new Method(all, 'all', this);
     this["delete"] = new Method(del, 'delete', this);
     this.find = new Method(find, 'find', this);

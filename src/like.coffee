@@ -1,3 +1,4 @@
+Block   = require './core'
 setting = require './setting'
 
 like = (obj = false, flags='') ->

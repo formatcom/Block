@@ -1,5 +1,7 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Block = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var all, setting;
+var Block, all, setting;
+
+Block = require('./core');
 
 setting = require('./setting');
 
@@ -16,10 +18,8 @@ all = function() {
 module.exports = all;
 
 
-},{"./setting":13}],2:[function(require,module,exports){
-var BASE, Block, Method, SUPPORT_IMMUTABLE, SUPPORT_IMMUTABLE_BLOCK, SUPPORT_MUTABLE, SUPPORT_MUTABLE_BLOCK, i, j, k, l, len, len1, len2, len3, prop;
-
-Method = require('./method');
+},{"./core":2,"./setting":13}],2:[function(require,module,exports){
+var BASE, Block, SUPPORT_IMMUTABLE, SUPPORT_IMMUTABLE_BLOCK, SUPPORT_MUTABLE, SUPPORT_MUTABLE_BLOCK, i, j, k, l, len, len1, len2, len3, prop;
 
 SUPPORT_MUTABLE_BLOCK = ['push', 'unshift'];
 
@@ -34,7 +34,6 @@ Block = function(obj) {
     obj = [];
   }
   this._objects = obj.json ? Object.freeze(obj.json()) : Object.freeze(obj);
-  this.global = new Method(new Function(), 'global', this);
   this._support = SUPPORT_MUTABLE.concat(SUPPORT_IMMUTABLE.concat(['json']));
   this._support_block = SUPPORT_MUTABLE_BLOCK.concat(SUPPORT_IMMUTABLE_BLOCK.concat(['equals']));
   this._extend();
@@ -159,8 +158,10 @@ for (l = 0, len3 = SUPPORT_IMMUTABLE.length; l < len3; l++) {
 module.exports = Block;
 
 
-},{"./method":10}],3:[function(require,module,exports){
-var del, setting;
+},{}],3:[function(require,module,exports){
+var Block, del, setting;
+
+Block = require('./core');
 
 setting = require('./setting');
 
@@ -203,8 +204,10 @@ del = function(obj) {
 module.exports = del;
 
 
-},{"./setting":13}],4:[function(require,module,exports){
-var find, setting;
+},{"./core":2,"./setting":13}],4:[function(require,module,exports){
+var Block, find, setting;
+
+Block = require('./core');
 
 setting = require('./setting');
 
@@ -247,8 +250,10 @@ find = function(obj) {
 module.exports = find;
 
 
-},{"./setting":13}],5:[function(require,module,exports){
-var first, setting;
+},{"./core":2,"./setting":13}],5:[function(require,module,exports){
+var Block, first, setting;
+
+Block = require('./core');
 
 setting = require('./setting');
 
@@ -275,7 +280,7 @@ first = function(limit) {
 module.exports = first;
 
 
-},{"./setting":13}],6:[function(require,module,exports){
+},{"./core":2,"./setting":13}],6:[function(require,module,exports){
 var Block, Method, all, del, find, first, last, like, max, min, set;
 
 Block = require('./core');
@@ -301,6 +306,7 @@ min = require('./min');
 set = require('./set');
 
 Block.prototype._extend = function() {
+  this.global = new Method(new Function(), 'global', this);
   this.all = new Method(all, 'all', this);
   this["delete"] = new Method(del, 'delete', this);
   this.find = new Method(find, 'find', this);
@@ -316,7 +322,9 @@ module.exports = Block;
 
 
 },{"./all":1,"./core":2,"./delete":3,"./find":4,"./first":5,"./last":7,"./like":8,"./max":9,"./method":10,"./min":11,"./set":12}],7:[function(require,module,exports){
-var last, setting;
+var Block, last, setting;
+
+Block = require('./core');
 
 setting = require('./setting');
 
@@ -345,8 +353,10 @@ last = function(limit) {
 module.exports = last;
 
 
-},{"./setting":13}],8:[function(require,module,exports){
-var like, setting;
+},{"./core":2,"./setting":13}],8:[function(require,module,exports){
+var Block, like, setting;
+
+Block = require('./core');
 
 setting = require('./setting');
 
@@ -390,8 +400,10 @@ like = function(obj, flags) {
 module.exports = like;
 
 
-},{"./setting":13}],9:[function(require,module,exports){
-var max, setting;
+},{"./core":2,"./setting":13}],9:[function(require,module,exports){
+var Block, max, setting;
+
+Block = require('./core');
 
 setting = require('./setting');
 
@@ -411,8 +423,10 @@ max = function(attrb) {
 module.exports = max;
 
 
-},{"./setting":13}],10:[function(require,module,exports){
-var Method, setting;
+},{"./core":2,"./setting":13}],10:[function(require,module,exports){
+var Block, Method, setting;
+
+Block = require('./core');
 
 setting = require('./setting');
 
@@ -458,8 +472,10 @@ Method.prototype = {
 module.exports = Method;
 
 
-},{"./setting":13}],11:[function(require,module,exports){
-var min, setting;
+},{"./core":2,"./setting":13}],11:[function(require,module,exports){
+var Block, min, setting;
+
+Block = require('./core');
 
 setting = require('./setting');
 
@@ -479,8 +495,10 @@ min = function(attrb) {
 module.exports = min;
 
 
-},{"./setting":13}],12:[function(require,module,exports){
-var set, setting;
+},{"./core":2,"./setting":13}],12:[function(require,module,exports){
+var Block, set, setting;
+
+Block = require('./core');
 
 setting = require('./setting');
 
@@ -502,7 +520,7 @@ set = function(callback) {
 module.exports = set;
 
 
-},{"./setting":13}],13:[function(require,module,exports){
+},{"./core":2,"./setting":13}],13:[function(require,module,exports){
 var METHOD, setting;
 
 METHOD = ['global', 'all', 'set', 'delete', 'find', 'first', 'last', 'min', 'max', 'like'];

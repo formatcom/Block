@@ -1,3 +1,4 @@
+Block   = require './core'
 setting = require './setting'
 
 Method = (exec, name, self) ->
@@ -39,7 +40,6 @@ Method = (exec, name, self) ->
 
 Method.prototype =
   query: () -> @_exec.apply @, arguments
-
 
 
 module.exports = Method
