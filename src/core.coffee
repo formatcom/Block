@@ -1,13 +1,4 @@
-Method  = require './Method'
-all     = require './all'
-set     = require './set'
-del     = require './delete'
-find    = require './find'
-first   = require './first'
-last    = require './last'
-min     = require './min'
-max     = require './max'
-like    = require './like'
+Method = require './method'
 
 
 SUPPORT_MUTABLE_BLOCK   = ['push', 'unshift']
@@ -18,25 +9,15 @@ SUPPORT_IMMUTABLE       = ['map', 'filter', 'forEach']
 Block = ( obj = [] ) ->
   @_objects        = if obj.json then Object.freeze obj.json() else Object.freeze obj
   @global          = new Method new Function(), 'global', @
-  @count           = 0
   @._support       = SUPPORT_MUTABLE.concat SUPPORT_IMMUTABLE.concat ['json']
   @._support_block = SUPPORT_MUTABLE_BLOCK.concat SUPPORT_IMMUTABLE_BLOCK.concat ['equals']
-  @_init()
+  @_extend()
   return @
 
 
 Block.prototype =
-  _init: () ->
-    
-    @all    = new Method all,   'all',    @
-    @set    = new Method set,   'set',    @
-    @delete = new Method del,   'delete', @
-    @find   = new Method find,  'find',   @
-    @first  = new Method first, 'first',  @
-    @last   = new Method last,  'last',   @
-    @min    = new Method min,   'min',    @
-    @max    = new Method max,   'max',    @
-    @like   = new Method like,  'like',   @
+
+  _extend: () ->
 
   json: (unique=false) ->
     _obj = JSON.parse JSON.stringify @_objects
