@@ -20,7 +20,7 @@ user = new Block()
 
 console.dir( user.json() )
 
-user = user.push({username: 'formatcom', email: formatcomvinicio at gmail dot com'})
+user = user.push({username: 'formatcom', email: 'formatcomvinicio at gmail dot com'})
 
 console.dir( user.json() )
 
