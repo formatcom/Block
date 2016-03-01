@@ -6,6 +6,7 @@ describe 'All Query', () ->
   json = [{name: 'vinicio'}, {name: 'maria'}]
   user = new Block(json)
 
+
   it 'all methods ok', () ->
 
     assert.ok(user.all)
@@ -18,12 +19,16 @@ describe 'All Query', () ->
     assert.ok(user.all.after)
     assert.ok(typeof user.all.after is 'function')
 
+
+
   it 'query', () ->
 
     allQuery = user.all.query()
 
     assert.equal(json[0].name, allQuery.json()[0].name)
     assert.equal(json[1].name, allQuery.json()[1].name)
+
+
 
   it 'before arg -> function', () ->
 
@@ -40,6 +45,8 @@ describe 'All Query', () ->
     assert.equal allQuery, 2
     assert.equal allBeforeQuery, 3
 
+
+
   it 'after arg -> function', () ->
 
     allQuery = user.all.query().json().length
@@ -54,3 +61,6 @@ describe 'All Query', () ->
     assert.equal true,  userAfter.all._after
     assert.equal allQuery, 2
     assert.equal allAfterQuery, 1
+
+
+

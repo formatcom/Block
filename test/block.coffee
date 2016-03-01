@@ -7,4 +7,8 @@ describe 'function prototype Block', () ->
 
   it 'user instance the Block', () ->
 
-    assert.ok(user instanceof Block)
+    assert.ok user instanceof Block
+
+    assert.ok typeof user.json   is 'function'
+
+    assert.ok typeof user.equals is 'function'
