@@ -18,7 +18,7 @@ all = function() {
 module.exports = all;
 
 
-},{"./core":2,"./setting":13}],2:[function(require,module,exports){
+},{"./core":2,"./setting":14}],2:[function(require,module,exports){
 var BASE, Block, SUPPORT_IMMUTABLE, SUPPORT_IMMUTABLE_BLOCK, SUPPORT_MUTABLE, SUPPORT_MUTABLE_BLOCK, i, j, k, l, len, len1, len2, len3, prop;
 
 SUPPORT_MUTABLE_BLOCK = ['push', 'unshift'];
@@ -204,7 +204,7 @@ del = function(obj) {
 module.exports = del;
 
 
-},{"./core":2,"./setting":13}],4:[function(require,module,exports){
+},{"./core":2,"./setting":14}],4:[function(require,module,exports){
 var Block, find, setting;
 
 Block = require('./core');
@@ -250,7 +250,7 @@ find = function(obj) {
 module.exports = find;
 
 
-},{"./core":2,"./setting":13}],5:[function(require,module,exports){
+},{"./core":2,"./setting":14}],5:[function(require,module,exports){
 var Block, first, setting;
 
 Block = require('./core');
@@ -280,8 +280,8 @@ first = function(limit) {
 module.exports = first;
 
 
-},{"./core":2,"./setting":13}],6:[function(require,module,exports){
-var Block, Method, all, del, find, first, last, like, max, min, set;
+},{"./core":2,"./setting":14}],6:[function(require,module,exports){
+var Block, Method, all, del, find, first, last, like, limit, max, min, set;
 
 Block = require('./core');
 
@@ -305,6 +305,8 @@ min = require('./min');
 
 set = require('./set');
 
+limit = require('./limit');
+
 Block.prototype._extend = function() {
   this.global = new Method(new Function(), 'global', this);
   this.all = new Method(all, 'all', this);
@@ -315,13 +317,14 @@ Block.prototype._extend = function() {
   this.like = new Method(like, 'like', this);
   this.max = new Method(max, 'max', this);
   this.min = new Method(min, 'min', this);
-  return this.set = new Method(set, 'set', this);
+  this.set = new Method(set, 'set', this);
+  return this.limit = new Method(limit, 'limit', this);
 };
 
 module.exports = Block;
 
 
-},{"./all":1,"./core":2,"./delete":3,"./find":4,"./first":5,"./last":7,"./like":8,"./max":9,"./method":10,"./min":11,"./set":12}],7:[function(require,module,exports){
+},{"./all":1,"./core":2,"./delete":3,"./find":4,"./first":5,"./last":7,"./like":8,"./limit":9,"./max":10,"./method":11,"./min":12,"./set":13}],7:[function(require,module,exports){
 var Block, last, setting;
 
 Block = require('./core');
@@ -353,7 +356,7 @@ last = function(limit) {
 module.exports = last;
 
 
-},{"./core":2,"./setting":13}],8:[function(require,module,exports){
+},{"./core":2,"./setting":14}],8:[function(require,module,exports){
 var Block, like, setting;
 
 Block = require('./core');
@@ -400,7 +403,46 @@ like = function(obj, flags) {
 module.exports = like;
 
 
-},{"./core":2,"./setting":13}],9:[function(require,module,exports){
+},{"./core":2,"./setting":14}],9:[function(require,module,exports){
+var Block, setting;
+
+Block = require('./core');
+
+setting = require('./setting');
+
+module.exports = function(offset, limit) {
+  var _obj, i, index, out, ref, ref1;
+  if (offset == null) {
+    offset = 1;
+  }
+  if (limit == null) {
+    limit = false;
+  }
+  _obj = new Block(this._self.global.before(this._self.json()) || this._self);
+  _obj = new Block(this.before(_obj.json()) || _obj);
+  offset--;
+  if (false === limit) {
+    limit = offset + 1;
+    offset = 0;
+  } else {
+    limit += offset;
+  }
+  _obj = _obj.json();
+  limit = limit > Object.keys(_obj).length ? Object.keys(_obj).length : limit;
+  console.log('offset: ', offset, 'limit: ', limit);
+  out = [];
+  for (index = i = ref = offset, ref1 = limit; ref <= ref1 ? i < ref1 : i > ref1; index = ref <= ref1 ? ++i : --i) {
+    out.push(_obj[index]);
+  }
+  _obj = out;
+  _obj = new Block(this._self.global.after(_obj) || _obj);
+  _obj = new Block(this.after(_obj.json()) || _obj);
+  _obj = setting(_obj, this._self);
+  return _obj;
+};
+
+
+},{"./core":2,"./setting":14}],10:[function(require,module,exports){
 var Block, max, setting;
 
 Block = require('./core');
@@ -423,7 +465,7 @@ max = function(attrb) {
 module.exports = max;
 
 
-},{"./core":2,"./setting":13}],10:[function(require,module,exports){
+},{"./core":2,"./setting":14}],11:[function(require,module,exports){
 var Block, Method, setting;
 
 Block = require('./core');
@@ -472,7 +514,7 @@ Method.prototype = {
 module.exports = Method;
 
 
-},{"./core":2,"./setting":13}],11:[function(require,module,exports){
+},{"./core":2,"./setting":14}],12:[function(require,module,exports){
 var Block, min, setting;
 
 Block = require('./core');
@@ -495,7 +537,7 @@ min = function(attrb) {
 module.exports = min;
 
 
-},{"./core":2,"./setting":13}],12:[function(require,module,exports){
+},{"./core":2,"./setting":14}],13:[function(require,module,exports){
 var Block, set, setting;
 
 Block = require('./core');
@@ -520,10 +562,10 @@ set = function(callback) {
 module.exports = set;
 
 
-},{"./core":2,"./setting":13}],13:[function(require,module,exports){
+},{"./core":2,"./setting":14}],14:[function(require,module,exports){
 var METHOD, setting;
 
-METHOD = ['global', 'all', 'set', 'delete', 'find', 'first', 'last', 'min', 'max', 'like'];
+METHOD = ['global', 'all', 'set', 'delete', 'find', 'first', 'last', 'min', 'max', 'like', 'limit'];
 
 setting = function(obj, self) {
   var i, len, name;

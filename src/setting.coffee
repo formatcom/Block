@@ -1,4 +1,4 @@
-METHOD = ['global', 'all', 'set', 'delete', 'find', 'first', 'last', 'min', 'max', 'like']
+METHOD = ['global', 'all', 'set', 'delete', 'find', 'first', 'last', 'min', 'max', 'like', 'limit']
 
 setting = (obj, self) ->
   for name in METHOD

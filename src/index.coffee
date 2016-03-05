@@ -9,6 +9,7 @@ like    = require './like'
 max     = require './max'
 min     = require './min'
 set     = require './set'
+limit   = require './limit'
 
 Block.prototype._extend = () ->
   @global = new Method new Function(), 'global', @
@@ -21,6 +22,7 @@ Block.prototype._extend = () ->
   @max    = new Method max,            'max',    @
   @min    = new Method min,            'min',    @
   @set    = new Method set,            'set',    @
+  @limit  = new Method limit,          'limit',  @
 
 
 module.exports = Block

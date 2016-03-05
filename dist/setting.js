@@ -2,7 +2,7 @@
 (function() {
   var METHOD, setting;
 
-  METHOD = ['global', 'all', 'set', 'delete', 'find', 'first', 'last', 'min', 'max', 'like'];
+  METHOD = ['global', 'all', 'set', 'delete', 'find', 'first', 'last', 'min', 'max', 'like', 'limit'];
 
   setting = function(obj, self) {
     var i, len, name;
