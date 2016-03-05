@@ -17,7 +17,6 @@ module.exports = (offset=1, limit=false) ->
   _obj  = _obj.json()
   limit = if limit > Object.keys(_obj).length then Object.keys(_obj).length else limit
 
-  console.log 'offset: ', offset, 'limit: ', limit
   out = []
   for index in [offset...limit]
     out.push _obj[index]

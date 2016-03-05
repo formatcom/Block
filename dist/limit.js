@@ -25,7 +25,6 @@
     }
     _obj = _obj.json();
     limit = limit > Object.keys(_obj).length ? Object.keys(_obj).length : limit;
-    console.log('offset: ', offset, 'limit: ', limit);
     out = [];
     for (index = i = ref = offset, ref1 = limit; ref <= ref1 ? i < ref1 : i > ref1; index = ref <= ref1 ? ++i : --i) {
       out.push(_obj[index]);
